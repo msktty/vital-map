@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>animal診断 - Vital Map</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; text-align: center; }
+    .result { margin-top: 2em; font-size: 1.2em; }
+    button {
+      margin-top: 1em;
+      padding: 0.6em 1.5em;
+      font-size: 1.1em;
+      background-color: #77c9d4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>animal診断</h1>
+  <p>生年月日を入力して、あなたの動物キャラを診断しよう！</p>
+  <input type="date" id="birth" />
+  <p style="font-size: 0.9em; color: #666;">
+    ※ 年を変えるには、左上の「西暦（例：1992年）」をタップしてください。
+  </p>
+  <button onclick="diagnose()">診断する</button>
+  <div class="result" id="result"></div>
+
+  <script>
+    const animals = [
+      "のんびりナマケモノ", "情熱のフラミンゴ", "知恵のミミズク", "わがままユニコーン",
+      "世話焼きビーバー", "気分屋チンチラ", "全力疾走チーター", "感受性たっぷりイルカ",
+      "おひとりさまヒツジ", "ご機嫌トカゲ", "地に足ついたゾウ", "ひらめきサル",
+      "背負いがちなカメ", "マイワールドキツネ", "やさしさのシカ", "一匹狼のハスキー",
+      "うっかりカンガルー", "どっしりクマ", "怒ると怖いネコ", "天然のタヌキ"
+    ];
+
+    const descriptions = {
+      "のんびりナマケモノ": "マイペースでストレスに弱いあなたにはビタミンB群とマグネシウムがおすすめ！",
+      "情熱のフラミンゴ": "エネルギッシュなあなたには抗酸化系のビタミンCやアスタキサンチンが◎！",
+      "知恵のミミズク": "頭脳派のあなたにはDHAやホスファチジルセリンなど脳サポート系！",
+      "わがままユニコーン": "マイルールが強いあなたには亜鉛や鉄分で内側から整えて！",
+      "世話焼きビーバー": "人に尽くしがちなあなたにはビタミンCとアダプトゲン系ハーブを！",
+      "気分屋チンチラ": "気分変動の多いあなたにはカルシウムとGABAで安定感を！",
+      "全力疾走チーター": "活動的なあなたにはプロテインとBCAAで筋肉と回復をサポート！",
+      "感受性たっぷりイルカ": "敏感なあなたにはマグネシウム＋L-テアニンでリラックスを！",
+      "おひとりさまヒツジ": "内向的なあなたにはビタミンDや鉄でエネルギー底上げ！",
+      "ご機嫌トカゲ": "ムード変化が激しいあなたにはセロトニン素材のトリプトファンを！",
+      "地に足ついたゾウ": "安定感抜群なあなたには腸内環境サポートのプロバイオティクスを！",
+      "ひらめきサル": "ひらめき型のあなたにはB群とクルクミンで頭すっきり！",
+      "背負いがちなカメ": "責任感の強いあなたにはアシュワガンダやロディオラで疲労ケアを！",
+      "マイワールドキツネ": "独創的なあなたには抗酸化系とマカで心と体にパワーを！",
+      "やさしさのシカ": "癒し系のあなたにはオメガ3とビタミンEで穏やかに！",
+      "一匹狼のハスキー": "独立志向のあなたにはマグネシウムとビタミンB6でバランス調整！",
+      "うっかりカンガルー": "忘れんぼうなあなたにはPS（ホスファチジルセリン）やイチョウ葉を！",
+      "どっしりクマ": "安定したあなたには血糖ケア系のクロムやシナモンが◎！",
+      "怒ると怖いネコ": "感情の起伏が強いあなたにはL-テアニンとGABAをサポートに！",
+      "天然のタヌキ": "癒しと不思議をまとうあなたにはオメガ3と鉄で巡りを整えて！"
+    };
+
+    function getAnimalByDate(dateStr) {
+      const birth = new Date(dateStr);
+      if (isNaN(birth)) return null;
+      const baseDate = new Date("1924-02-05");
+      const diffDays = Math.floor((birth - baseDate) / (1000 * 60 * 60 * 24));
+      const stemBranchIndex = (diffDays % 60 + 60) % 60;
+      return animals[stemBranchIndex % 20];
+    }
+
+    function diagnose() {
+      const birth = document.getElementById("birth").value;
+      const resultDiv = document.getElementById("result");
+      const animal = getAnimalByDate(birth);
+      if (animal) {
+        const desc = descriptions[animal] || "";
+        const link = "https://jp.iherb.com/search?kw=" + encodeURIComponent(desc) + "&rcode=BTP412";
+        resultDiv.innerHTML = `あなたのタイプは…<br><strong>${animal}</strong>！<br><br>${desc}<br><br><a href="${link}" target="_blank">iHerbで探す🛒</a>`;
+      } else {
+        resultDiv.innerHTML = "正しい生年月日を入力してください。";
+      }
+    }
+  </script>
+</body>
+</html>
