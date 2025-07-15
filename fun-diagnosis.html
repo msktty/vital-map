@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>おもしろ診断 - Vital Map</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+      padding: 2em;
+    }
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 0.5em;
+    }
+    .diagnosis-buttons {
+      margin-top: 2em;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      align-items: center;
+    }
+    .btn {
+      display: inline-block;
+      padding: 1em 2em;
+      font-size: 1.2em;
+      background-color: #77c9d4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      width: 80%;
+      max-width: 320px;
+    }
+    .btn.inactive {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>おもしろ診断</h1>
+  <p>気になる診断をタップしてね！</p>
+
+  <div class="diagnosis-buttons">
+    <a href="animal.html" class="btn">animal診断</a>
+    <a href="dosha.html" class="btn">アーユルヴェーダ診断</a>
+    <a href="#" class="btn inactive">タロット占い（準備中）</a>
+    <a href="#" class="btn inactive">食生活診断（準備中）</a>
+    <a href="#" class="btn inactive">その他の診断（準備中）</a>
+  </div>
+</body>
+</html>

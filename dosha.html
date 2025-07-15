@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>アーユルヴェーダ診断 - Vital Map</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; max-width: 600px; margin: auto; }
+    h1 { text-align: center; }
+    .question { margin-top: 2em; }
+    .question p { font-weight: bold; }
+    .result { margin-top: 2em; padding: 1em; background-color: #f0f8ff; border-radius: 8px; }
+    button { margin-top: 1.5em; padding: 0.6em 1.5em; font-size: 1.1em; background-color: #77c9d4; color: white; border: none; border-radius: 8px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>アーユルヴェーダ診断</h1>
+  <p>あなたの体質（ドーシャ）を簡単チェック！</p>
+
+  <form id="doshaForm">
+    <div class="question">
+      <p>1. あなたの体型は？</p>
+      <label><input type="radio" name="q1" value="vata"> とても細い（痩せ型）</label><br>
+      <label><input type="radio" name="q1" value="vata"> やや細め</label><br>
+      <label><input type="radio" name="q1" value="pitta"> 普通</label><br>
+      <label><input type="radio" name="q1" value="kapha"> ポッチャリ気味</label><br>
+      <label><input type="radio" name="q1" value="kapha"> 大柄・がっしり</label>
+    </div>
+
+    <div class="question">
+      <p>2. 手足の温度は？</p>
+      <label><input type="radio" name="q2" value="vata"> いつも冷たい</label><br>
+      <label><input type="radio" name="q2" value="vata"> 冷えやすいけど回復も早い</label><br>
+      <label><input type="radio" name="q2" value="pitta"> 普通</label><br>
+      <label><input type="radio" name="q2" value="kapha"> むしろ温かい</label>
+    </div>
+
+    <div class="question">
+      <p>3. 食後すぐにお腹がすく？</p>
+      <label><input type="radio" name="q3" value="pitta"> すぐにお腹が空く</label><br>
+      <label><input type="radio" name="q3" value="vata"> 時々忘れるくらい空腹感がない</label><br>
+      <label><input type="radio" name="q3" value="kapha"> 食べなくても平気なときがある</label>
+    </div>
+
+    <div class="question">
+      <p>4. あなたの睡眠傾向は？</p>
+      <label><input type="radio" name="q4" value="vata"> 寝つきが悪く眠りも浅い</label><br>
+      <label><input type="radio" name="q4" value="pitta"> ストレスがあると寝つきが悪い</label><br>
+      <label><input type="radio" name="q4" value="kapha"> どこでも爆睡タイプ</label>
+    </div>
+
+    <div class="question">
+      <p>5. 性格の傾向は？</p>
+      <label><input type="radio" name="q5" value="vata"> 落ち着きがなく不安定</label><br>
+      <label><input type="radio" name="q5" value="pitta"> 情熱的で短気</label><br>
+      <label><input type="radio" name="q5" value="kapha"> おだやかでマイペース</label>
+    </div>
+
+    <p style="font-size: 0.9em; color: #666;">
+      ※ 年を変えるには、カレンダーの左上の「西暦（例：1992年）」をタップしてください。
+    </p>
+
+    <button type="button" onclick="diagnoseDosha()">診断する</button>
+  </form>
+
+  <div id="result" class="result"></div>
+
+  <script>
+    function diagnoseDosha() {
+      const form = document.getElementById('doshaForm');
+      const data = new FormData(form);
+      const counts = { vata: 0, pitta: 0, kapha: 0 };
+
+      for (let [key, value] of data.entries()) {
+        counts[value]++;
+      }
+
+      let max = Math.max(counts.vata, counts.pitta, counts.kapha);
+      let result = [];
+      for (let type in counts) {
+        if (counts[type] === max) result.push(type);
+      }
+
+      const desc = {
+        vata: "ヴァータ体質：風のように軽く、繊細で動きやすいタイプ。冷え・不安・乾燥に注意！<br><a href='https://jp.iherb.com/search?kw=マグネシウム&rcode=BTP412' target='_blank'>マグネシウムをiHerbで探す🛒</a>",
+        pitta: "ピッタ体質：火のようにエネルギッシュ。情熱的で暑がり、胃腸のトラブル注意！<br><a href='https://jp.iherb.com/search?kw=クールダウン&rcode=BTP412' target='_blank'>ピッタ向けサプリを探す🛒</a>",
+        kapha: "カパ体質：水と土のように安定型。おだやかで体力がある反面、重たくなりやすい！<br><a href='https://jp.iherb.com/search?kw=デトックス&rcode=BTP412' target='_blank'>カパ向けハーブを探す🛒</a>"
+      };
+
+      let resultText = result.map(r => desc[r]).join("<br><br>");
+      document.getElementById("result").innerHTML = `<h3>あなたのドーシャは：</h3><p>${resultText}</p>`;
+    }
+  </script>
+</body>
+</html>
